@@ -1,0 +1,116 @@
+
+
+CREATE TABLE PLAYER (
+    Pid INT PRIMARY KEY,
+    Lname VARCHAR(20),
+    Fname VARCHAR(20),
+    Country VARCHAR(20),
+    Yborn DATE,
+    Bplace VARCHAR(20)
+);
+
+CREATE TABLE MATCHING (
+    MatchID INT PRIMARY KEY,
+    Team1 VARCHAR(20),
+    Team2 VARCHAR(20),
+    Ground VARCHAR(50),
+    Date DATE,
+    Winner VARCHAR(20)
+);
+
+CREATE TABLE BATTING (
+    MatchID INT,
+    Pid INT,
+    Nruns INT,
+    Fours INT,
+    Sixes INT,
+    PRIMARY KEY(MatchID, Pid),
+    FOREIGN KEY(MatchID) REFERENCES MATCHING(MatchID),
+    FOREIGN KEY(Pid) REFERENCES PLAYER(Pid)
+);
+
+CREATE TABLE BOWLING (
+    MatchID INT,
+    Pid INT,
+    Novers INT,
+    Maidens INT,
+    Nruns INT,
+    Nwickets INT,
+    PRIMARY KEY(MatchID, Pid),
+    FOREIGN KEY(MatchID) REFERENCES MATCHING(MatchID),
+    FOREIGN KEY(Pid) REFERENCES PLAYER(Pid)
+);
+
+
+
+-- PLAYER
+INSERT INTO PLAYER VALUES (1,'Kumar','Dhoni','India','1988-01-01','Chennai');
+INSERT INTO PLAYER VALUES (2,'Smith','Steve','Australia','1985-05-12','Sydney');
+INSERT INTO PLAYER VALUES (3,'Warner','David','Australia','1986-10-12','Sydney');
+INSERT INTO PLAYER VALUES (4,'Kohli','Virat','India','1988-11-05','Delhi');
+INSERT INTO PLAYER VALUES (5,'Ponting','Ricky','Australia','1974-12-19','Launceston');
+
+-- MATCHING
+INSERT INTO MATCHING VALUES (12,'Australia','India','MCG','2012-01-01','India');
+INSERT INTO MATCHING VALUES (2689,'India','Australia','Eden Gardens','2013-03-15','India');
+INSERT INTO MATCHING VALUES (1001,'Australia','England','SCG','2011-06-05','Australia');
+INSERT INTO MATCHING VALUES (1002,'India','Pakistan','Feroz Shah Kotla','2012-08-12','India');
+INSERT INTO MATCHING VALUES (1003,'Australia','South Africa','WACA','2010-09-20','Australia');
+
+-- BATTING
+INSERT INTO BATTING VALUES (12,1,20,4,1);
+INSERT INTO BATTING VALUES (12,2,50,6,2);
+INSERT INTO BATTING VALUES (2689,1,80,10,3);
+INSERT INTO BATTING VALUES (2689,4,70,8,2);
+INSERT INTO BATTING VALUES (2689,5,60,7,1);
+INSERT INTO BATTING VALUES (1001,2,100,12,5);
+
+-- BOWLING
+INSERT INTO BOWLING VALUES (12,1,12,1,20,2);
+INSERT INTO BOWLING VALUES (12,2,15,2,30,1);
+INSERT INTO BOWLING VALUES (2689,4,10,0,45,3);
+INSERT INTO BOWLING VALUES (2689,5,12,1,50,2);
+INSERT INTO BOWLING VALUES (1001,3,14,2,40,1);
+
+
+-- i. Display the sorted list of ground names where Australia has played as team1
+SELECT Ground
+FROM MATCHING
+WHERE Team1='Australia'
+ORDER BY Ground;
+
+-- ii. Find the match information of all matches in which Dhoni did batting
+SELECT M.*
+FROM MATCHING M
+JOIN BATTING B ON M.MatchID = B.MatchID
+JOIN PLAYER P ON B.Pid = P.Pid
+WHERE P.Fname='Dhoni';
+
+-- iii. Find the names of players who did batting in match 2689
+SELECT P.Fname, P.Lname
+FROM PLAYER P
+JOIN BATTING B ON P.Pid = B.Pid
+WHERE B.MatchID=2689;
+
+output:
+
++--------+
+| Ground |
++--------+
+| MCG    |
+| SCG    |
+| WACA   |
++--------+
++---------+-----------+-----------+--------------+------------+--------+
+| MatchID | Team1     | Team2     | Ground       | Date       | Winner |
++---------+-----------+-----------+--------------+------------+--------+
+|      12 | Australia | India     | MCG          | 2012-01-01 | India  |
+|    2689 | India     | Australia | Eden Gardens | 2013-03-15 | India  |
++---------+-----------+-----------+--------------+------------+--------+
++-------+---------+
+| Fname | Lname   |
++-------+---------+
+| Dhoni | Kumar   |
+| Virat | Kohli   |
+| Ricky | Ponting |
++-------+---------+
