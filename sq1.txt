@@ -1,0 +1,114 @@
+CREATE TABLE Sailors (
+  Sid    INT PRIMARY KEY,
+  Sname  VARCHAR(50) NOT NULL,
+  Rating INT,
+  Age    INT
+);
+
+CREATE TABLE Boats (
+  Bid   INT PRIMARY KEY,
+  Bname VARCHAR(50) NOT NULL,
+  Colour VARCHAR(20)
+);
+
+CREATE TABLE Reserves (
+  Sid  INT NOT NULL,
+  Bid  INT NOT NULL,
+  day  DATE NOT NULL,
+  PRIMARY KEY (Sid, Bid, day),
+  FOREIGN KEY (Sid) REFERENCES Sailors(Sid) ON DELETE CASCADE,
+  FOREIGN KEY (Bid) REFERENCES Boats(Bid) ON DELETE CASCADE
+);
+
+INSERT INTO Sailors (Sid, Sname, Rating, Age) VALUES
+ (1, 'John',    7, 32),
+ (2, 'Alice',   5, 28),
+ (3, 'Bob',     8, 40),
+ (4, 'Charlie', 6, 22),
+ (5, 'Diana',   4, 30);
+
+INSERT INTO Boats (Bid, Bname, Colour) VALUES
+ (101, 'Sea Breeze', 'red'),
+ (102, 'Wave Rider', 'green'),
+ (103, 'Blue Star',  'blue'),
+ (104, 'Red Comet',  'red'),
+ (105, 'Sunny Day',  'yellow');
+
+INSERT INTO Reserves (Sid, Bid, day) VALUES
+ (1, 101, DATE '2025-05-12'),
+ (1, 103, DATE '2025-06-01'),
+ (2, 102, DATE '2025-05-20'),
+ (3, 103, DATE '2025-07-02'),
+ (4, 104, DATE '2025-08-10');
+
+SELECT * FROM Sailors; 
+SELECT * FROM Boats; 
+SELECT * FROM Reserves;
+
+
+-- Query (i)
+SELECT DISTINCT S.Sname
+FROM Sailors S
+JOIN Reserves R ON S.Sid = R.Sid;
+
+-- Query (ii)
+SELECT DISTINCT R.Sid
+FROM Reserves R
+JOIN Boats B ON R.Bid = B.Bid
+WHERE B.Colour IN ('red', 'green');
+
+-- Query (iii)
+SELECT S.Sid
+FROM Sailors S
+LEFT JOIN Reserves R ON S.Sid = R.Sid
+WHERE R.Sid IS NULL;
+
+output: 
++-----+---------+--------+------+
+| Sid | Sname   | Rating | Age  |
++-----+---------+--------+------+
+|   1 | John    |      7 |   32 |
+|   2 | Alice   |      5 |   28 |
+|   3 | Bob     |      8 |   40 |
+|   4 | Charlie |      6 |   22 |
+|   5 | Diana   |      4 |   30 |
++-----+---------+--------+------+
++-----+------------+--------+
+| Bid | Bname      | Colour |
++-----+------------+--------+
+| 101 | Sea Breeze | red    |
+| 102 | Wave Rider | green  |
+| 103 | Blue Star  | blue   |
+| 104 | Red Comet  | red    |
+| 105 | Sunny Day  | yellow |
++-----+------------+--------+
++-----+-----+------------+
+| Sid | Bid | day        |
++-----+-----+------------+
+|   1 | 101 | 2025-05-12 |
+|   2 | 102 | 2025-05-20 |
+|   1 | 103 | 2025-06-01 |
+|   3 | 103 | 2025-07-02 |
+|   4 | 104 | 2025-08-10 |
++-----+-----+------------+
++---------+
+| Sname   |
++---------+
+| John    |
+| Alice   |
+| Bob     |
+| Charlie |
++---------+
++-----+
+| Sid |
++-----+
+|   1 |
+|   2 |
+|   4 |
++-----+
++-----+
+| Sid |
++-----+
+|   5 |
++-----+
+
