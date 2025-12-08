@@ -1,0 +1,126 @@
+
+-- EMPLOYEE TABLE
+CREATE TABLE EMPLOYEE (
+    Fname      VARCHAR(20),
+    Lname      VARCHAR(20),
+    SSN        VARCHAR(9) PRIMARY KEY,
+    Addrs      VARCHAR(50),
+    Sex        CHAR(1),
+    Salary     INT,
+    SuperSSN   VARCHAR(9),
+    Dno        INT
+);
+
+-- DEPARTMENT TABLE
+CREATE TABLE DEPARTMENT (
+    Dname         VARCHAR(30),
+    Dnumber       INT PRIMARY KEY,
+    MgrSSN        VARCHAR(9),
+    MgrStartDate  DATE,
+    FOREIGN KEY (MgrSSN) REFERENCES EMPLOYEE(SSN)
+);
+
+-- DEPENDENT TABLE
+CREATE TABLE DEPENDENT (
+    Dname VARCHAR(30),
+    ESSN  VARCHAR(9),
+    FOREIGN KEY (ESSN) REFERENCES EMPLOYEE(SSN)
+);
+
+
+-- EMPLOYEE (5 rows)
+INSERT INTO EMPLOYEE VALUES ('John', 'Smith', '111111111', 'Houston', 'M', 45000, NULL, 1);
+INSERT INTO EMPLOYEE VALUES ('Alice','Brown', '222222222', 'Dallas',  'F', 55000, '111111111', 2);
+INSERT INTO EMPLOYEE VALUES ('Mark', 'Davis', '333333333', 'Austin',  'M', 60000, '222222222', 2);
+INSERT INTO EMPLOYEE VALUES ('Sara', 'Lee',   '444444444', 'Houston', 'F', 48000, '111111111', 3);
+INSERT INTO EMPLOYEE VALUES ('Tom',  'Wilson','555555555', 'Dallas',  'M', 70000, NULL, 3);
+
+-- DEPARTMENT (5 rows)
+INSERT INTO DEPARTMENT VALUES ('Tech Research', 1, '111111111', '2010-01-01');
+INSERT INTO DEPARTMENT VALUES ('Admin',         2, '222222222', '2012-05-05');
+INSERT INTO DEPARTMENT VALUES ('Biotech Lab',   3, '555555555', '2008-03-20');
+INSERT INTO DEPARTMENT VALUES ('FinTech Dept',  4, '333333333', '2015-07-10');
+INSERT INTO DEPARTMENT VALUES ('HealthTech',    5, '444444444', '2016-09-09');
+
+-- DEPENDENT (5 rows)
+INSERT INTO DEPENDENT VALUES ('Anna',    '111111111');
+INSERT INTO DEPENDENT VALUES ('Chris',   '222222222');
+INSERT INTO DEPENDENT VALUES ('Bella',   '333333333');
+INSERT INTO DEPENDENT VALUES ('Daniel',  '555555555');
+INSERT INTO DEPENDENT VALUES ('Sophie',  '555555555');
+
+SELECT * FROM EMPLOYEE;
+SELECT * FROM DEPARTMENT;
+SELECT * FROM DEPENDENT;
+
+
+-- i. Department name + average salary of employees in each department
+SELECT D.Dname, AVG(E.Salary) AS Avg_Salary
+FROM DEPARTMENT D
+JOIN EMPLOYEE E ON D.Dnumber = E.Dno
+GROUP BY D.Dname;
+
+-- ii. Names of managers who have at least one dependent
+SELECT DISTINCT E.Fname, E.Lname
+FROM EMPLOYEE E
+JOIN DEPARTMENT D ON E.SSN = D.MgrSSN
+JOIN DEPENDENT Dep ON E.SSN = Dep.ESSN;
+
+-- iii. Departments whose name contains 'tech'
+SELECT *
+FROM DEPARTMENT
+WHERE LOWER(Dname) LIKE '%tech%';
+
+
+OUPUT:
+
++-------+--------+-----------+---------+------+--------+-----------+------+
+| Fname | Lname  | SSN       | Addrs   | Sex  | Salary | SuperSSN  | Dno  |
++-------+--------+-----------+---------+------+--------+-----------+------+
+| John  | Smith  | 111111111 | Houston | M    |  45000 | NULL      |    1 |
+| Alice | Brown  | 222222222 | Dallas  | F    |  55000 | 111111111 |    2 |
+| Mark  | Davis  | 333333333 | Austin  | M    |  60000 | 222222222 |    2 |
+| Sara  | Lee    | 444444444 | Houston | F    |  48000 | 111111111 |    3 |
+| Tom   | Wilson | 555555555 | Dallas  | M    |  70000 | NULL      |    3 |
++-------+--------+-----------+---------+------+--------+-----------+------+
++---------------+---------+-----------+--------------+
+| Dname         | Dnumber | MgrSSN    | MgrStartDate |
++---------------+---------+-----------+--------------+
+| Tech Research |       1 | 111111111 | 2010-01-01   |
+| Admin         |       2 | 222222222 | 2012-05-05   |
+| Biotech Lab   |       3 | 555555555 | 2008-03-20   |
+| FinTech Dept  |       4 | 333333333 | 2015-07-10   |
+| HealthTech    |       5 | 444444444 | 2016-09-09   |
++---------------+---------+-----------+--------------+
++--------+-----------+
+| Dname  | ESSN      |
++--------+-----------+
+| Anna   | 111111111 |
+| Chris  | 222222222 |
+| Bella  | 333333333 |
+| Daniel | 555555555 |
+| Sophie | 555555555 |
++--------+-----------+
++---------------+------------+
+| Dname         | Avg_Salary |
++---------------+------------+
+| Tech Research | 45000.0000 |
+| Admin         | 57500.0000 |
+| Biotech Lab   | 59000.0000 |
++---------------+------------+
++-------+--------+
+| Fname | Lname  |
++-------+--------+
+| John  | Smith  |
+| Alice | Brown  |
+| Mark  | Davis  |
+| Tom   | Wilson |
++-------+--------+
++---------------+---------+-----------+--------------+
+| Dname         | Dnumber | MgrSSN    | MgrStartDate |
++---------------+---------+-----------+--------------+
+| Tech Research |       1 | 111111111 | 2010-01-01   |
+| Biotech Lab   |       3 | 555555555 | 2008-03-20   |
+| FinTech Dept  |       4 | 333333333 | 2015-07-10   |
+| HealthTech    |       5 | 444444444 | 2016-09-09   |
++---------------+---------+-----------+--------------+
