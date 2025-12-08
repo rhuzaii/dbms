@@ -1,0 +1,135 @@
+
+
+CREATE TABLE CUSTOMER (
+    Cno INT PRIMARY KEY,
+    Cname VARCHAR(50),
+    Ccity VARCHAR(50)
+);
+
+CREATE TABLE ORDER1 (
+    Ono INT PRIMARY KEY,
+    Odate DATE,
+    Ocno INT,
+    Oamt INT,
+    FOREIGN KEY (Ocno) REFERENCES CUSTOMER(Cno) ON DELETE CASCADE
+);
+
+CREATE TABLE ITEM (
+    Ino INT PRIMARY KEY,
+    Uprice INT
+);
+
+CREATE TABLE ORDER_ITEM (
+    Iono INT,
+    Oino INT,
+    Qty INT,
+    PRIMARY KEY (Iono, Oino),
+    FOREIGN KEY (Iono) REFERENCES ORDER1(Ono) ON DELETE CASCADE,
+    FOREIGN KEY (Oino) REFERENCES ITEM(Ino) ON DELETE CASCADE
+);
+
+CREATE TABLE WAREHOUSE (
+    Wno INT PRIMARY KEY,
+    Wcity VARCHAR(50)
+);
+
+CREATE TABLE SHIPMENT (
+    Sono INT,
+    Swno INT,
+    Shipdate DATE,
+    PRIMARY KEY (Sono, Swno),
+    FOREIGN KEY (Sono) REFERENCES ORDER1(Ono) ON DELETE CASCADE,
+    FOREIGN KEY (Swno) REFERENCES WAREHOUSE(Wno) ON DELETE CASCADE
+);
+
+
+-- CUSTOMER
+INSERT INTO CUSTOMER VALUES (1,'Archie','Bangalore');
+INSERT INTO CUSTOMER VALUES (2,'Veronica','Bangalore');
+INSERT INTO CUSTOMER VALUES (3,'Betty','Mysore');
+INSERT INTO CUSTOMER VALUES (4,'Jughead','Bangalore');
+INSERT INTO CUSTOMER VALUES (5,'Cheryl','Mysore');
+INSERT INTO CUSTOMER VALUES (6,'Jason','Mangalore');
+
+-- ORDER1
+INSERT INTO ORDER1 VALUES (1, '2016-06-01', 1, 1000);
+INSERT INTO ORDER1 VALUES (2, '2016-06-03', 1, 2000);
+INSERT INTO ORDER1 VALUES (3, '2016-06-03', 3, 3000);
+INSERT INTO ORDER1 VALUES (4, '2016-06-05', 4, 4000);
+INSERT INTO ORDER1 VALUES (5, '2017-06-06', 5, 5000);
+
+-- ITEM
+INSERT INTO ITEM VALUES (1, 100);
+INSERT INTO ITEM VALUES (2, 200);
+INSERT INTO ITEM VALUES (3, 300);
+INSERT INTO ITEM VALUES (4, 400);
+INSERT INTO ITEM VALUES (10, 500);
+
+-- ORDER_ITEM
+INSERT INTO ORDER_ITEM VALUES (1, 1, 2);
+INSERT INTO ORDER_ITEM VALUES (1, 2, 1);
+INSERT INTO ORDER_ITEM VALUES (2, 3, 2);
+INSERT INTO ORDER_ITEM VALUES (3, 4, 3);
+INSERT INTO ORDER_ITEM VALUES (4, 3, 1);
+INSERT INTO ORDER_ITEM VALUES (5, 2, 1);
+
+-- WAREHOUSE
+INSERT INTO WAREHOUSE VALUES (1,'Bangalore');
+INSERT INTO WAREHOUSE VALUES (2,'Bangalore');
+INSERT INTO WAREHOUSE VALUES (3,'Mysore');
+INSERT INTO WAREHOUSE VALUES (4,'Mangalore');
+INSERT INTO WAREHOUSE VALUES (5,'Mangalore');
+
+-- SHIPMENT
+INSERT INTO SHIPMENT VALUES (1, 1, '2016-06-03');
+INSERT INTO SHIPMENT VALUES (2, 1, '2016-06-03');
+INSERT INTO SHIPMENT VALUES (3, 2, '2016-06-05');
+INSERT INTO SHIPMENT VALUES (4, 3, '2016-06-05');
+INSERT INTO SHIPMENT VALUES (5, 4, '2016-06-06');
+
+
+-- i. List the customer names who have placed more than 2 orders
+SELECT C.Cname
+FROM CUSTOMER C
+JOIN ORDER1 O ON C.Cno = O.Ocno
+GROUP BY C.Cno, C.Cname
+HAVING COUNT(O.Ono) >= 2;
+
+
+
+-- ii. Find the total order amount for each day
+SELECT Odate, SUM(Oamt) AS TotalOrderAmount
+FROM ORDER1
+GROUP BY Odate
+ORDER BY Odate;
+
+
+-- iii. List the customer details who has the largest order amount
+SELECT C.Cno, C.Cname, C.Ccity
+FROM CUSTOMER C
+JOIN ORDER1 O ON C.Cno = O.Ocno
+WHERE O.Oamt = (SELECT MAX(Oamt) FROM ORDER1);
+
+
+output:
+
+Output:
+
++--------+
+| Cname  |
++--------+
+| Archie |
++--------+
++------------+------------------+
+| Odate      | TotalOrderAmount |
++------------+------------------+
+| 2016-06-01 |             1000 |
+| 2016-06-03 |             5000 |
+| 2016-06-05 |             4000 |
+| 2017-06-06 |             5000 |
++------------+------------------+
++-----+--------+--------+
+| Cno | Cname  | Ccity  |
++-----+--------+--------+
+|   5 | Cheryl | Mysore |
++-----+--------+--------+
