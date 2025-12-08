@@ -1,0 +1,139 @@
+
+CREATE TABLE Aircraft (
+    aid VARCHAR(10) PRIMARY KEY,
+    aname VARCHAR(20),
+    crange INT
+);
+
+CREATE TABLE Employees (
+    eid INT PRIMARY KEY,
+    ename VARCHAR(20),
+    salary INT
+);
+
+CREATE TABLE Certified (
+    eid INT,
+    aid VARCHAR(10),
+    FOREIGN KEY (eid) REFERENCES Employees(eid),
+    FOREIGN KEY (aid) REFERENCES Aircraft(aid)
+);
+
+
+
+-- AIRCRAFT (5 tuples)
+INSERT INTO Aircraft VALUES
+('B001', 'Boeing 4000', 4000),
+('B002', 'Boeing 2500', 2500),
+('B003', 'Blackbeard', 6000),
+('S004', 'Supermarine', 8000),
+('L005', 'Lockheed', 2100);
+
+-- EMPLOYEES (5 tuples)
+INSERT INTO Employees VALUES
+(1, 'Johnny', 40000),
+(2, 'Timmy', 60000),
+(3, 'Lawrence', 70000),
+(4, 'Zuzu', 90000),
+(5, 'Matt', 80000);
+
+-- CERTIFIED (9 tuples)
+INSERT INTO Certified VALUES
+(1, 'B001'),
+(1, 'B002'),
+(2, 'B002'),
+(3, 'S004'),
+(3, 'B003'),
+(4, 'S004'),
+(4, 'B003'),
+(4, 'L005'),
+(5, 'L005');
+
+SELECT * FROM Aircraft;
+SELECT * FROM Employees;
+SELECT * FROM Certified;
+
+
+-- i. Find employee IDs of employees who make the highest salary
+SELECT eid
+FROM Employees
+WHERE salary = (SELECT MAX(salary) FROM Employees);
+
+-- ii. Find the name of aircrafts such that all pilots certified 
+--     to operate them earn more than 50000
+SELECT aname
+FROM Aircraft a
+WHERE NOT EXISTS (
+    SELECT *
+    FROM Certified c 
+    JOIN Employees e ON c.eid = e.eid
+    WHERE c.aid = a.aid AND e.salary <= 50000
+);
+
+-- iii. Find the employees who are certified for the maximum number of aircrafts
+SELECT e.eid, e.ename
+FROM Employees e
+WHERE e.eid IN (
+    SELECT eid
+    FROM Certified
+    GROUP BY eid
+    HAVING COUNT(aid) = (
+        SELECT MAX(cnt)
+        FROM (
+            SELECT COUNT(aid) AS cnt
+            FROM Certified
+            GROUP BY eid
+        ) x
+    )
+);
+
+output:
+
+
++------+-------------+--------+
+| aid  | aname       | crange |
++------+-------------+--------+
+| B001 | Boeing 4000 |   4000 |
+| B002 | Boeing 2500 |   2500 |
+| B003 | Blackbeard  |   6000 |
+| L005 | Lockheed    |   2100 |
+| S004 | Supermarine |   8000 |
++------+-------------+--------+
++-----+----------+--------+
+| eid | ename    | salary |
++-----+----------+--------+
+|   1 | Johnny   |  40000 |
+|   2 | Timmy    |  60000 |
+|   3 | Lawrence |  70000 |
+|   4 | Zuzu     |  90000 |
+|   5 | Matt     |  80000 |
++-----+----------+--------+
++------+------+
+| eid  | aid  |
++------+------+
+|    1 | B001 |
+|    1 | B002 |
+|    2 | B002 |
+|    3 | S004 |
+|    3 | B003 |
+|    4 | S004 |
+|    4 | B003 |
+|    4 | L005 |
+|    5 | L005 |
++------+------+
++-----+
+| eid |
++-----+
+|   4 |
++-----+
++-------------+
+| aname       |
++-------------+
+| Blackbeard  |
+| Lockheed    |
+| Supermarine |
++-------------+
++-----+-------+
+| eid | ename |
++-----+-------+
+|   4 | Zuzu  |
++-----+-------+
