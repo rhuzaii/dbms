@@ -1,0 +1,139 @@
+
+
+CREATE TABLE CUSTOMER (
+    Cno INT PRIMARY KEY,
+    Cname VARCHAR(50),
+    Ccity VARCHAR(50)
+);
+
+CREATE TABLE ORDER1 (
+    Ono INT PRIMARY KEY,
+    Odate DATE,
+    Ocno INT,
+    Oamt INT,
+    FOREIGN KEY (Ocno) REFERENCES CUSTOMER(Cno) ON DELETE CASCADE
+);
+
+CREATE TABLE ITEM (
+    Ino INT PRIMARY KEY,
+    Uprice INT
+);
+
+CREATE TABLE ORDER_ITEM (
+    Iono INT,
+    Oino INT,
+    Qty INT,
+    PRIMARY KEY (Iono, Oino),
+    FOREIGN KEY (Iono) REFERENCES ORDER1(Ono) ON DELETE CASCADE,
+    FOREIGN KEY (Oino) REFERENCES ITEM(Ino) ON DELETE CASCADE
+);
+
+CREATE TABLE WAREHOUSE (
+    Wno INT PRIMARY KEY,
+    Wcity VARCHAR(50)
+);
+
+CREATE TABLE SHIPMENT (
+    Sono INT,
+    Swno INT,
+    Shipdate DATE,
+    PRIMARY KEY (Sono, Swno),
+    FOREIGN KEY (Sono) REFERENCES ORDER1(Ono) ON DELETE CASCADE,
+    FOREIGN KEY (Swno) REFERENCES WAREHOUSE(Wno) ON DELETE CASCADE
+);
+
+
+-- CUSTOMER
+INSERT INTO CUSTOMER VALUES (1,'Archie','Bangalore');
+INSERT INTO CUSTOMER VALUES (2,'Veronica','Bangalore');
+INSERT INTO CUSTOMER VALUES (3,'Betty','Mysore');
+INSERT INTO CUSTOMER VALUES (4,'Jughead','Bangalore');
+INSERT INTO CUSTOMER VALUES (5,'Cheryl','Mysore');
+INSERT INTO CUSTOMER VALUES (6,'Jason','Mangalore');
+
+-- ORDER1
+INSERT INTO ORDER1 VALUES (1, '2016-06-01',1,1000);
+INSERT INTO ORDER1 VALUES (2, '2016-06-03',1,2000);
+INSERT INTO ORDER1 VALUES (3, '2016-06-03',3,3000);
+INSERT INTO ORDER1 VALUES (4, '2016-06-05',4,4000);
+INSERT INTO ORDER1 VALUES (5, '2017-06-06',5,5000);
+
+-- ITEM
+INSERT INTO ITEM VALUES (1,100);
+INSERT INTO ITEM VALUES (2,200);
+INSERT INTO ITEM VALUES (3,300);
+INSERT INTO ITEM VALUES (4,400);
+INSERT INTO ITEM VALUES (10,500);
+
+-- ORDER_ITEM
+INSERT INTO ORDER_ITEM VALUES (1,1,2);
+INSERT INTO ORDER_ITEM VALUES (1,2,1);
+INSERT INTO ORDER_ITEM VALUES (2,3,2);
+INSERT INTO ORDER_ITEM VALUES (3,4,3);
+INSERT INTO ORDER_ITEM VALUES (4,3,1);
+INSERT INTO ORDER_ITEM VALUES (5,2,1);
+INSERT INTO ORDER_ITEM VALUES (2,10,5);  -- Added some orders for item 10
+INSERT INTO ORDER_ITEM VALUES (4,10,6);  -- Ensure some data has item 10
+
+-- WAREHOUSE
+INSERT INTO WAREHOUSE VALUES (1,'Bangalore');
+INSERT INTO WAREHOUSE VALUES (2,'Bangalore');
+INSERT INTO WAREHOUSE VALUES (3,'Mysore');
+INSERT INTO WAREHOUSE VALUES (4,'Mangalore');
+INSERT INTO WAREHOUSE VALUES (5,'Mangalore');
+
+-- SHIPMENT
+INSERT INTO SHIPMENT VALUES (1,1,'2016-06-03');
+INSERT INTO SHIPMENT VALUES (2,1,'2016-06-03');
+INSERT INTO SHIPMENT VALUES (3,2,'2016-06-05');
+INSERT INTO SHIPMENT VALUES (4,3,'2016-06-05');
+INSERT INTO SHIPMENT VALUES (5,4,'2016-06-06');
+
+
+
+-- i. Customer names and number of orders for customers in Bangalore
+SELECT C.Cname, COUNT(O.Ono) AS NumOrders
+FROM CUSTOMER C
+JOIN ORDER1 O ON C.Cno = O.Ocno
+WHERE C.Ccity = 'Bangalore'
+GROUP BY C.Cname;
+
+-- ii. Customers who have ordered at least 10 items (sum of Qty across all orders)
+SELECT C.Cname
+FROM CUSTOMER C
+JOIN ORDER1 O ON C.Cno = O.Ocno
+JOIN ORDER_ITEM OI ON O.Ono = OI.Iono
+GROUP BY C.Cname
+HAVING SUM(OI.Qty) >= 10;
+
+-- iii. Customers who have NOT ordered item no. 10
+SELECT C.Cname
+FROM CUSTOMER C
+WHERE C.Cno NOT IN (
+    SELECT O.Ocno
+    FROM ORDER1 O
+    JOIN ORDER_ITEM OI ON O.Ono = OI.Iono
+    WHERE OI.Oino = 10
+);
+
+output:
+
++---------+-----------+
+| Cname   | NumOrders |
++---------+-----------+
+| Archie  |         2 |
+| Jughead |         1 |
++---------+-----------+
++--------+
+| Cname  |
++--------+
+| Archie |
++--------+
++----------+
+| Cname    |
++----------+
+| Veronica |
+| Betty    |
+| Cheryl   |
+| Jason    |
++----------+
