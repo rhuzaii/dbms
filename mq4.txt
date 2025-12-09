@@ -1,0 +1,115 @@
+use tourism
+db.createCollection("tourist")
+
+db.tourist.insertMany([
+  {
+    place: "Bangalore",
+    address: "Karnataka",
+    id: 1,
+    tourist_attractions: "Lalbagh Garden",
+    best_time: "Winter",
+    transport: "Airport",
+    accommodation: "Hotel",
+    food: "Dosa"
+  },
+  {
+    place: "Mysore",
+    address: "Karnataka",
+    id: 2,
+    tourist_attractions: "Mysore Palace",
+    best_time: "Winter",
+    transport: "Railway",
+    accommodation: "Hotel",
+    food: "Mysore Pak"
+  },
+  {
+    place: "Hampi",
+    address: "Karnataka",
+    id: 3,
+    tourist_attractions: "Virupaksha Temple",
+    best_time: "Winter",
+    transport: "Railway",
+    accommodation: "Resort",
+    food: "South Meals"
+  },
+  {
+    place: "Kochi",
+    address: "Kerala",
+    id: 4,
+    tourist_attractions: "Fort Kochi",
+    best_time: "Monsoon",
+    transport: "Airport",
+    accommodation: "Hotel",
+    food: "Fish Fry"
+  },
+  {
+    place: "Munnar",
+    address: "Kerala",
+    id: 5,
+    tourist_attractions: "Tea Gardens",
+    best_time: "Winter",
+    transport: "Road",
+    accommodation: "Resort",
+    food: "Kerala Meals"
+  },
+  {
+    place: "Alleppey",
+    address: "Kerala",
+    id: 6,
+    tourist_attractions: "Backwaters",
+    best_time: "Winter",
+    transport: "Railway",
+    accommodation: "Houseboat",
+    food: "Seafood"
+  },
+  {
+    place: "Agra",
+    address: "Uttar Pradesh",
+    id: 7,
+    tourist_attractions: "Taj Mahal",
+    best_time: "Winter",
+    transport: "Railway",
+    accommodation: "Hotel",
+    food: "Petha"
+  },
+  {
+    place: "Jaipur",
+    address: "Rajasthan",
+    id: 8,
+    tourist_attractions: "Hawa Mahal",
+    best_time: "Winter",
+    transport: "Airport",
+    accommodation: "Hotel",
+    food: "Dal Baati"
+  },
+  {
+    place: "Goa",
+    address: "Goa",
+    id: 9,
+    tourist_attractions: "Beaches",
+    best_time: "Winter",
+    transport: "Airport",
+    accommodation: "Hotel",
+    food: "Seafood"
+  },
+  {
+    place: "Delhi",
+    address: "Delhi",
+    id: 10,
+    tourist_attractions: "India Gate",
+    best_time: "Winter",
+    transport: "Airport",
+    accommodation: "Hotel",
+    food: "Chole Bhature"
+  }
+])
+
+db.tourist.find(
+  { address: "Karnataka" },
+  { place: 1, tourist_attractions: 1, _id: 0 }
+)
+
+db.tourist.find(
+  { address: "Kerala" },
+  { place: 1, id: 1, tourist_attractions: 1, best_time: 1, transport: 1, _id: 0 }
+)
