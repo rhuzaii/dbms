@@ -1,0 +1,131 @@
+db.movies.insertMany([
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Kiran",
+    director_id: 201,
+    director_birthdate: "1970-10-12",
+    film_title: "Ocean Fire",
+    year_of_production: 2012,
+    type: "Action"
+  },
+  {
+    actor_name: "Elly",
+    actor_id: 102,
+    actor_birthdate: "1990-07-14",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Dream Lights",
+    year_of_production: 2012,
+    type: "Romance"
+  },
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Thomas",
+    director_id: 203,
+    director_birthdate: "1975-06-08",
+    film_title: "Iron Chase",
+    year_of_production: 2015,
+    type: "Thriller"
+  },
+  {
+    actor_name: "Elly",
+    actor_id: 102,
+    actor_birthdate: "1990-07-14",
+    director_name: "Mohan",
+    director_id: 204,
+    director_birthdate: "1978-04-01",
+    film_title: "Sky Dancers",
+    year_of_production: 2012,
+    type: "Musical"
+  },
+  {
+    actor_name: "Ram",
+    actor_id: 103,
+    actor_birthdate: "1982-03-21",
+    director_name: "Deepak",
+    director_id: 205,
+    director_birthdate: "1972-01-11",
+    film_title: "Silent Truth",
+    year_of_production: 2016,
+    type: "Drama"
+  },
+  {
+    actor_name: "Ram",
+    actor_id: 103,
+    actor_birthdate: "1982-03-21",
+    director_name: "Arun",
+    director_id: 206,
+    director_birthdate: "1974-12-19",
+    film_title: "Night Warriors",
+    year_of_production: 2012,
+    type: "Action"
+  },
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Cold Storm",
+    year_of_production: 2012,
+    type: "Thriller"
+  },
+  {
+    actor_name: "Mark",
+    actor_id: 104,
+    actor_birthdate: "1983-09-05",
+    director_name: "Raj",
+    director_id: 207,
+    director_birthdate: "1975-08-12",
+    film_title: "Final Race",
+    year_of_production: 2013,
+    type: "Action"
+  },
+  {
+    actor_name: "Elly",
+    actor_id: 102,
+    actor_birthdate: "1990-07-14",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Magic Times",
+    year_of_production: 2014,
+    type: "Fantasy"
+  },
+  {
+    actor_name: "Ram",
+    actor_id: 103,
+    actor_birthdate: "1982-03-21",
+    director_name: "Suresh",
+    director_id: 208,
+    director_birthdate: "1976-02-15",
+    film_title: "Golden Path",
+    year_of_production: 2018,
+    type: "Adventure"
+  }
+]);
+
+
+db.movies.find(
+  {
+    actor_name: { $in: ["John", "Elly"] },
+    year_of_production: 2012
+  },
+  {
+    actor_name: 1,
+    film_title: 1,
+    year_of_production: 1,
+    _id: 0
+  }
+)
+
+db.movies.find(
+  { actor_name: "Ram" },
+  { film_title: 1, type: 1, _id: 0 }
+).sort({ film_title: 1 })
