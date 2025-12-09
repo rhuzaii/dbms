@@ -1,0 +1,109 @@
+// Switch to restaurant database
+use restaurant
+
+// Create collection
+db.createCollection("rest")
+
+// Insert 10 documents with address as one object
+db.rest.insertMany([
+  {
+    name: "McD",
+    address: { building: 12, street: "KR", area: "JN", pin: 72 },
+    ID: 1,
+    cuisine: "fast food",
+    landmark: "post office",
+    od: "yes",
+    famousfor: "cheese burger"
+  },
+  {
+    name: "Tailo",
+    address: { building: 14, street: "MG", area: "Bangalore", pin: 45 },
+    ID: 2,
+    cuisine: "Italian",
+    landmark: "bank",
+    od: "yes",
+    famousfor: "pasta"
+  },
+  {
+    name: "Kesar",
+    address: { building: 15, street: "SS", area: "Bangalore", pin: 55 },
+    ID: 3,
+    cuisine: "north indian",
+    landmark: "milk factory",
+    od: "no",
+    famousfor: "north indian thali"
+  },
+  {
+    name: "Punjabi Rasoi",
+    address: { building: 18, street: "BTM", area: "Bangalore", pin: 67 },
+    ID: 4,
+    cuisine: "north indian",
+    landmark: "BTM Park",
+    od: "yes",
+    famousfor: "north indian thali"
+  },
+  {
+    name: "La Italia",
+    address: { building: 20, street: "Brigade", area: "Bangalore", pin: 42 },
+    ID: 5,
+    cuisine: "Italian",
+    landmark: "City Mall",
+    od: "yes",
+    famousfor: "pizza"
+  },
+  {
+    name: "Delhi Darbar",
+    address: { building: 22, street: "Koramangala", area: "Bangalore", pin: 88 },
+    ID: 6,
+    cuisine: "north indian",
+    landmark: "Forum Mall",
+    od: "no",
+    famousfor: "north indian thali"
+  },
+  {
+    name: "Saffron",
+    address: { building: 24, street: "Indiranagar", area: "Bangalore", pin: 71 },
+    ID: 7,
+    cuisine: "north indian",
+    landmark: "Metro Station",
+    od: "yes",
+    famousfor: "paneer butter masala"
+  },
+  {
+    name: "Taco Zone",
+    address: { building: 30, street: "KR Puram", area: "Bangalore", pin: 98 },
+    ID: 8,
+    cuisine: "mexican",
+    landmark: "Bus Stop",
+    od: "yes",
+    famousfor: "tacos"
+  },
+  {
+    name: "Dosa Palace",
+    address: { building: 35, street: "HSR", area: "Bangalore", pin: 77 },
+    ID: 9,
+    cuisine: "south indian",
+    landmark: "Park",
+    od: "no",
+    famousfor: "masala dosa"
+  },
+  {
+    name: "BBQ Nation",
+    address: { building: 40, street: "Whitefield", area: "Bangalore", pin: 99 },
+    ID: 10,
+    cuisine: "barbeque",
+    landmark: "Phoenix Mall",
+    od: "yes",
+    famousfor: "grilled chicken"
+  }
+])
+
+db.rest.find(
+  { famousfor: "north indian thali", "address.area": "Bangalore" },
+  { name: 1, address: 1, landmark: 1, _id: 0 }
+)
+
+db.rest.find(
+  { "address.area": "Bangalore" },
+  { name: 1, address: 1, famousfor: 1, _id: 0 }
+)
