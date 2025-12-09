@@ -1,0 +1,56 @@
+use moviesDB
+
+db.createCollection("movie")
+
+db.movie.insertMany([
+  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
+    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
+    film:"Fire Storm", year:2012, type:"Action" },
+
+  { act_n:"Elly", act_id:12, act_bdate:"04/12/1998",
+    dir_n:"Thomas", dir_id:102, dir_bdate:"10/01/1980",
+    film:"Ocean Girl", year:2012, type:"Adventure" },
+
+  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
+    dir_n:"Michael", dir_id:101, dir_bdate:"11/04/1969",
+    film:"Dark Knight", year:2012, type:"Thriller" },
+
+  { act_n:"Elly", act_id:12, act_bdate:"04/12/1998",
+    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
+    film:"Sky Dive", year:2012, type:"Drama" },
+
+  { act_n:"Ram", act_id:13, act_bdate:"02/03/1997",
+    dir_n:"Williams", dir_id:103, dir_bdate:"12/09/1987",
+    film:"Battleship", year:2015, type:"Thriller" },
+
+  { act_n:"Chris", act_id:14, act_bdate:"03/05/1990",
+    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
+    film:"Frozen Lake", year:2018, type:"Action" },
+
+  { act_n:"Ram", act_id:13, act_bdate:"02/03/1997",
+    dir_n:"Thomas", dir_id:102, dir_bdate:"10/01/1980",
+    film:"Raging Fire", year:2012, type:"Action" },
+
+  { act_n:"Nina", act_id:15, act_bdate:"10/10/1999",
+    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
+    film:"Sky Bird", year:2014, type:"Family" },
+
+  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
+    dir_n:"Daniel", dir_id:104, dir_bdate:"07/08/1975",
+    film:"Lost Island", year:2013, type:"Adventure" },
+
+  { act_n:"Ram", act_id:13, act_bdate:"02/03/1997",
+    dir_n:"Michael", dir_id:101, dir_bdate:"11/04/1969",
+    film:"Alpha Zone", year:2012, type:"Sci-Fi" }
+])
+
+
+db.movie.find(
+  { act_n: { $in: ["John", "Elly"] }, year: 2012 },
+  { act_n: 1, film: 1, year: 1, _id: 0 }
+)
+
+db.movie.find(
+  { act_n: "Ram" },
+  { film: 1, type: 1, _id: 0 }
+).sort({ film: 1 })
