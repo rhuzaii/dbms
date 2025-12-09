@@ -1,0 +1,124 @@
+db.movies.insertMany([
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Kiran",
+    director_id: 201,
+    director_birthdate: "1970-10-12",
+    film_title: "Sky Warriors",
+    year_of_production: 2018,
+    type: "Action"
+  },
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Love Beats",
+    year_of_production: 2018,
+    type: "Romance"
+  },
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Sudeep",
+    director_id: 203,
+    director_birthdate: "1975-11-09",
+    film_title: "Dark Secrets",
+    year_of_production: 2018,
+    type: "Thriller"
+  },
+  {
+    actor_name: "Elly",
+    actor_id: 102,
+    actor_birthdate: "1990-07-14",
+    director_name: "Arun",
+    director_id: 204,
+    director_birthdate: "1978-04-02",
+    film_title: "Ocean Tales",
+    year_of_production: 2017,
+    type: "Adventure"
+  },
+  {
+    actor_name: "Mike",
+    actor_id: 103,
+    actor_birthdate: "1983-01-20",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Silent Room",
+    year_of_production: 2018,
+    type: "Horror"
+  },
+  {
+    actor_name: "Ram",
+    actor_id: 104,
+    actor_birthdate: "1980-09-10",
+    director_name: "Dev",
+    director_id: 205,
+    director_birthdate: "1972-03-22",
+    film_title: "Hidden Truth",
+    year_of_production: 2016,
+    type: "Drama"
+  },
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Manoj",
+    director_id: 206,
+    director_birthdate: "1973-08-05",
+    film_title: "Future Zone",
+    year_of_production: 2018,
+    type: "Sci-Fi"
+  },
+  {
+    actor_name: "Elly",
+    actor_id: 102,
+    actor_birthdate: "1990-07-14",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Dance Unlimited",
+    year_of_production: 2015,
+    type: "Musical"
+  },
+  {
+    actor_name: "Mark",
+    actor_id: 105,
+    actor_birthdate: "1984-03-30",
+    director_name: "Ravi",
+    director_id: 207,
+    director_birthdate: "1976-06-18",
+    film_title: "Chase Point",
+    year_of_production: 2018,
+    type: "Action"
+  },
+  {
+    actor_name: "John",
+    actor_id: 101,
+    actor_birthdate: "1985-02-10",
+    director_name: "Ram",
+    director_id: 202,
+    director_birthdate: "1968-05-20",
+    film_title: "Magic Forest",
+    year_of_production: 2014,
+    type: "Fantasy"
+  }
+]);
+
+db.movies.find(
+  { actor_name: "John", year_of_production: 2018 },
+  { film_title: 1, year_of_production: 1, _id: 0 }
+)
+
+
+db.movies.find(
+  { director_name: "Ram" },
+  { actor_name: 1, type: 1, _id: 0 }
+)
+
