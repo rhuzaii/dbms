@@ -1,55 +1,129 @@
 use moviesDB
 
-db.createCollection("movie")
-
-db.movie.insertMany([
-  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
-    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
-    film:"Mr.Bean", year:2018, type:"Comedy" },
-
-  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
-    dir_n:"Michael", dir_id:101, dir_bdate:"11/04/1969",
-    film:"Speed Run", year:2018, type:"Action" },
-
-  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
-    dir_n:"Thomas", dir_id:102, dir_bdate:"10/01/1980",
-    film:"Shadow Zone", year:2017, type:"Thriller" },
-
-  { act_n:"Elly", act_id:12, act_bdate:"04/12/1998",
-    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
-    film:"Aqua Girl", year:2015, type:"Action" },
-
-  { act_n:"Ram", act_id:13, act_bdate:"02/03/1997",
-    dir_n:"Williams", dir_id:103, dir_bdate:"12/09/1987",
-    film:"Battleship", year:2016, type:"Thriller" },
-
-  { act_n:"Chris", act_id:14, act_bdate:"03/05/1990",
-    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
-    film:"Blue Storm", year:2018, type:"Drama" },
-
-  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
-    dir_n:"Daniel", dir_id:104, dir_bdate:"07/08/1975",
-    film:"Lion Hunt", year:2018, type:"Adventure" },
-
-  { act_n:"Nina", act_id:15, act_bdate:"10/10/1999",
-    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
-    film:"Sky Bird", year:2014, type:"Family" },
-
-  { act_n:"Ravi", act_id:16, act_bdate:"11/12/1995",
-    dir_n:"Thomas", dir_id:102, dir_bdate:"10/01/1980",
-    film:"Xtreme", year:2018, type:"Action" },
-
-  { act_n:"John", act_id:11, act_bdate:"01/02/1998",
-    dir_n:"Ram", dir_id:100, dir_bdate:"02/03/1970",
-    film:"Deep Dive", year:2018, type:"Thriller" }
+db.createCollection("movies")
+db.movies.insertMany([
+{
+  actor_name: "John",
+  actor_id: 1,
+  actor_birthdate: "1990-05-12",
+  director_name: "Ram",
+  director_id: 101,
+  director_birthdate: "1975-08-20",
+  film_title: "Alpha",
+  year_of_production: 2018,
+  type: "Thriller"
+},
+{
+  actor_name: "Elly",
+  actor_id: 2,
+  actor_birthdate: "1992-07-18",
+  director_name: "Sam",
+  director_id: 102,
+  director_birthdate: "1980-01-15",
+  film_title: "Bravo",
+  year_of_production: 2012,
+  type: "Comedy"
+},
+{
+  actor_name: "John",
+  actor_id: 1,
+  actor_birthdate: "1990-05-12",
+  director_name: "Peter",
+  director_id: 103,
+  director_birthdate: "1972-03-10",
+  film_title: "Charlie",
+  year_of_production: 2013,
+  type: "Action"
+},
+{
+  actor_name: "Elly",
+  actor_id: 2,
+  actor_birthdate: "1992-07-18",
+  director_name: "Ram",
+  director_id: 101,
+  director_birthdate: "1975-08-20",
+  film_title: "Delta",
+  year_of_production: 2012,
+  type: "Drama"
+},
+{
+  actor_name: "Ram",
+  actor_id: 3,
+  actor_birthdate: "1985-09-09",
+  director_name: "Alex",
+  director_id: 104,
+  director_birthdate: "1978-11-11",
+  film_title: "Echo",
+  year_of_production: 2015,
+  type: "Thriller"
+},
+{
+  actor_name: "Ram",
+  actor_id: 3,
+  actor_birthdate: "1985-09-09",
+  director_name: "Sam",
+  director_id: 102,
+  director_birthdate: "1980-01-15",
+  film_title: "Foxtrot",
+  year_of_production: 2014,
+  type: "Comedy"
+},
+{
+  actor_name: "John",
+  actor_id: 1,
+  actor_birthdate: "1990-05-12",
+  director_name: "Ram",
+  director_id: 101,
+  director_birthdate: "1975-08-20",
+  film_title: "Golf",
+  year_of_production: 2012,
+  type: "Action"
+},
+{
+  actor_name: "Elly",
+  actor_id: 2,
+  actor_birthdate: "1992-07-18",
+  director_name: "Peter",
+  director_id: 103,
+  director_birthdate: "1972-03-10",
+  film_title: "Hotel",
+  year_of_production: 2011,
+  type: "Romance"
+},
+{
+  actor_name: "Ram",
+  actor_id: 3,
+  actor_birthdate: "1985-09-09",
+  director_name: "Peter",
+  director_id: 103,
+  director_birthdate: "1972-03-10",
+  film_title: "India",
+  year_of_production: 2016,
+  type: "Drama"
+},
+{
+  actor_name: "Alex",
+  actor_id: 4,
+  actor_birthdate: "1991-12-12",
+  director_name: "Ram",
+  director_id: 101,
+  director_birthdate: "1975-08-20",
+  film_title: "Juliet",
+  year_of_production: 2012,
+  type: "Thriller"
+}
 ])
 
-db.movie.find(
-  { act_n: "John", year: 2018 },
-  { film: 1, _id: 0 }
+i) List all the movies acted by John in the year 2018
+db.movies.find(
+  { actor_name: "John", year_of_production: 2018 },
+  { film_title: 1, _id: 0 }
 )
 
-db.movie.find(
-  { dir_n: "Ram" },
-  { act_n: 1, type: 1, _id: 0 }
+
+ii) List only the actor names and type of the movie directed by Ram
+db.movies.find(
+  { director_name: "Ram" },
+  { actor_name: 1, type: 1, _id: 0 }
 )
+
