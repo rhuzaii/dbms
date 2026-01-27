@@ -1,109 +1,112 @@
-// Switch to restaurant database
-use restaurant
+// Switch to (or create) the database named restaurant
+use rest
 
-// Create collection
-db.createCollection("rest")
+// Create a collection named 'rest'
+db.createCollection("restaurant")
 
-// Insert 10 documents with address as one object
-db.rest.insertMany([
-  {
-    name: "McD",
-    address: { building: 12, street: "KR", area: "JN", pin: 72 },
-    ID: 1,
-    cuisine: "fast food",
-    landmark: "post office",
-    od: "yes",
-    famousfor: "cheese burger"
-  },
-  {
-    name: "Tailo",
-    address: { building: 14, street: "MG", area: "Bangalore", pin: 45 },
-    ID: 2,
-    cuisine: "Italian",
-    landmark: "bank",
-    od: "yes",
-    famousfor: "pasta"
-  },
-  {
-    name: "Kesar",
-    address: { building: 15, street: "SS", area: "Bangalore", pin: 55 },
-    ID: 3,
-    cuisine: "north indian",
-    landmark: "milk factory",
-    od: "no",
-    famousfor: "north indian thali"
-  },
-  {
-    name: "Punjabi Rasoi",
-    address: { building: 18, street: "BTM", area: "Bangalore", pin: 67 },
-    ID: 4,
-    cuisine: "north indian",
-    landmark: "BTM Park",
-    od: "yes",
-    famousfor: "north indian thali"
-  },
-  {
-    name: "La Italia",
-    address: { building: 20, street: "Brigade", area: "Bangalore", pin: 42 },
-    ID: 5,
-    cuisine: "Italian",
-    landmark: "City Mall",
-    od: "yes",
-    famousfor: "pizza"
-  },
-  {
-    name: "Delhi Darbar",
-    address: { building: 22, street: "Koramangala", area: "Bangalore", pin: 88 },
-    ID: 6,
-    cuisine: "north indian",
-    landmark: "Forum Mall",
-    od: "no",
-    famousfor: "north indian thali"
-  },
-  {
-    name: "Saffron",
-    address: { building: 24, street: "Indiranagar", area: "Bangalore", pin: 71 },
-    ID: 7,
-    cuisine: "north indian",
-    landmark: "Metro Station",
-    od: "yes",
-    famousfor: "paneer butter masala"
-  },
-  {
-    name: "Taco Zone",
-    address: { building: 30, street: "KR Puram", area: "Bangalore", pin: 98 },
-    ID: 8,
-    cuisine: "mexican",
-    landmark: "Bus Stop",
-    od: "yes",
-    famousfor: "tacos"
-  },
-  {
-    name: "Dosa Palace",
-    address: { building: 35, street: "HSR", area: "Bangalore", pin: 77 },
-    ID: 9,
-    cuisine: "south indian",
-    landmark: "Park",
-    od: "no",
-    famousfor: "masala dosa"
-  },
-  {
-    name: "BBQ Nation",
-    address: { building: 40, street: "Whitefield", area: "Bangalore", pin: 99 },
-    ID: 10,
-    cuisine: "barbeque",
-    landmark: "Phoenix Mall",
-    od: "yes",
-    famousfor: "grilled chicken"
-  }
+// Insert 10 restaurant documents
+db.restaurant.insertMany([
+{
+  id: 1,
+  name: "Little Italy",
+  address: { building: "12", street: "MG Road", area: "Bangalore", pincode: 560001 },
+  cuisine: "Italian",
+  nearby_landmarks: "Metro Station",
+  online_delivery: "yes",
+  famous_for: "Pasta"
+},
+{
+  id: 2,
+  name: "Truffles",
+  address: { building: "45", street: "Church Street", area: "Bangalore", pincode: 560003 },
+  cuisine: "Italian",
+  nearby_landmarks: "Brigade Road",
+  online_delivery: "yes",
+  famous_for: "Pizza"
+},
+{
+  id: 3,
+  name: "Punjabi Rasoi",
+  address: { building: "78", street: "BTM Layout", area: "Bangalore", pincode: 560029 },
+  cuisine: "North Indian Thali",
+  nearby_landmarks: "Silk Board",
+  online_delivery: "no",
+  famous_for: "Punjabi Thali"
+},
+{
+  id: 4,
+  name: "Empire Restaurant",
+  address: { building: "21", street: "Jayanagar", area: "Bangalore", pincode: 560011 },
+  cuisine: "North Indian Thali",
+  nearby_landmarks: "Bus Stand",
+  online_delivery: "yes",
+  famous_for: "Butter Chicken"
+},
+{
+  id: 5,
+  name: "Meghana Foods",
+  address: { building: "55", street: "Indiranagar", area: "Bangalore", pincode: 560038 },
+  cuisine: "South Indian",
+  nearby_landmarks: "100 Feet Road",
+  online_delivery: "yes",
+  famous_for: "Biryani"
+},
+{
+  id: 6,
+  name: "Barbeque Nation",
+  address: { building: "9", street: "Whitefield", area: "Bangalore", pincode: 560066 },
+  cuisine: "North Indian",
+  nearby_landmarks: "ITPL",
+  online_delivery: "no",
+  famous_for: "Buffet"
+},
+{
+  id: 7,
+  name: "Pizza Hut",
+  address: { building: "32", street: "Malleshwaram", area: "Bangalore", pincode: 560055 },
+  cuisine: "Italian",
+  nearby_landmarks: "Railway Station",
+  online_delivery: "yes",
+  famous_for: "Cheese Pizza"
+},
+{
+  id: 8,
+  name: "Delhi Darbar",
+  address: { building: "14", street: "Yelahanka", area: "Bangalore", pincode: 560064 },
+  cuisine: "North Indian Thali",
+  nearby_landmarks: "Air Force Base",
+  online_delivery: "no",
+  famous_for: "Dal Tadka"
+},
+{
+  id: 9,
+  name: "Saffron",
+  address: { building: "66", street: "Electronic City", area: "Bangalore", pincode: 560100 },
+  cuisine: "Italian",
+  nearby_landmarks: "Tech Park",
+  online_delivery: "yes",
+  famous_for: "Lasagna"
+},
+{
+  id: 10,
+  name: "Udupi Garden",
+  address: { building: "18", street: "Rajajinagar", area: "Bangalore", pincode: 560010 },
+  cuisine: "South Indian",
+  nearby_landmarks: "Orion Mall",
+  online_delivery: "yes",
+  famous_for: "Dosa"
+}
 ])
 
-db.rest.find(
-  { famousfor: "north indian thali", "address.area": "Bangalore" },
-  { name: 1, address: 1, landmark: 1, _id: 0 }
+
+i) Name, address and nearby landmarks of restaurants in Bangalore serving North Indian Thali
+db.restaurant.find(
+  { "address.area": "Bangalore", cuisine: "North Indian Thali" },
+  { name: 1, address: 1, nearby_landmarks: 1, _id: 0 }
 )
 
-db.rest.find(
+ii) Name, address and famous dish of restaurants in Bangalore
+db.restaurant.find(
   { "address.area": "Bangalore" },
   { name: 1, address: 1, famousfor: 1, _id: 0 }
 )
