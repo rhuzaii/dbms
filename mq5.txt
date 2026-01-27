@@ -98,14 +98,14 @@ i) List the tourist attractions of Kerala
 
 (Exclude accommodation and food)
 
-db.tourist_places.find(
+db.tourist_places2.find(
   { "address.state": "Kerala" },
   { tourist_attractions: 1, _id: 0 }
 )
 
 
 ii) List the places sorted state-wise
-db.tourist_places.find(
+db.tourist_places2.find(
   {},
   { place: 1, "address.state": 1, _id: 0 }
 ).sort({ "address.state": 1 })
